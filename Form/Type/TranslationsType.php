@@ -4,9 +4,9 @@ namespace A2lix\TranslationFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
-    Symfony\Component\OptionsResolver\OptionsResolverInterface,
     A2lix\TranslationFormBundle\Form\EventListener\DefaultTranslationsListener,
     A2lix\TranslationFormBundle\Form\DataMapper\IndexByTranslationMapper;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Regroup by locales, all translations fields
@@ -38,7 +38,7 @@ class TranslationsType extends AbstractType
         $builder->addEventSubscriber($this->translationsListener);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'by_reference' => false,
@@ -48,7 +48,7 @@ class TranslationsType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'a2lix_translations';
     }

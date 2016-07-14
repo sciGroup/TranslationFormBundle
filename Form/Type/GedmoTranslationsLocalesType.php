@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType,
     Symfony\Component\Form\FormBuilderInterface,
     Symfony\Component\OptionsResolver\OptionsResolverInterface,
     A2lix\TranslationFormBundle\Form\DataMapper\GedmoTranslationMapper;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Translations locales (gedmo)
@@ -25,7 +26,7 @@ class GedmoTranslationsLocalesType extends AbstractType
 
         foreach ($options['locales'] as $locale) {
             if (isset($options['fields_options'][$locale])) {
-                $builder->add($locale, 'a2lix_translationsFields', array(
+                $builder->add($locale, TranslationsFieldsType::class, array(
                     'fields' => $options['fields_options'][$locale],
                     'translation_class' => $options['translation_class'],
                     'inherit_data' => $isDefaultTranslation,
@@ -34,7 +35,7 @@ class GedmoTranslationsLocalesType extends AbstractType
         }
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'locales' => array(),
@@ -43,7 +44,7 @@ class GedmoTranslationsLocalesType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'a2lix_translationsLocales_gedmo';
     }

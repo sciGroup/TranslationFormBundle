@@ -2,15 +2,16 @@
 
 namespace A2lix\TranslationFormBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType,
-    Symfony\Component\Form\FormBuilderInterface,
-    Symfony\Component\OptionsResolver\OptionsResolverInterface,
-    A2lix\TranslationFormBundle\Form\EventListener\GedmoTranslationsListener,
-    A2lix\TranslationFormBundle\TranslationForm\GedmoTranslationForm,
-    A2lix\TranslationFormBundle\Form\DataMapper\GedmoTranslationMapper,
-    Symfony\Component\Form\FormView,
-    Symfony\Component\Form\FormInterface,
-    Symfony\Component\OptionsResolver\Options;
+use A2lix\TranslationFormBundle\Form\DataMapper\GedmoTranslationMapper;
+use A2lix\TranslationFormBundle\Form\EventListener\GedmoTranslationsListener;
+use A2lix\TranslationFormBundle\TranslationForm\GedmoTranslationForm;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Regroup by locales, all translations fields (gedmo)
@@ -74,7 +75,7 @@ class GedmoTranslationsType extends AbstractType
         $view->vars['simple_way'] = !$options['inherit_data'];
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $translatableListener = $this->translationForm->getGedmoTranslatableListener();
 
@@ -92,7 +93,7 @@ class GedmoTranslationsType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'a2lix_translations_gedmo';
     }
